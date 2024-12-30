@@ -1,0 +1,120 @@
+<html>
+<head>
+    <title>Smart Finance 4 Smart Students</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        /* Animasi untuk Radio Button */
+        .radio-circle {
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid #cbd5e1; /* Gray border */
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease-in-out;
+        }
+        .radio-circle:hover {
+            transform: scale(1.2); /* Animasi saat hover */
+            border-color: #3b82f6; /* Ubah warna border ke biru */
+        }
+        .radio-circle.checked {
+            border-color: #3b82f6; /* Border biru saat dipilih */
+        }
+        .radio-circle::after {
+            content: "";
+            width: 0.75rem;
+            height: 0.75rem;
+            background-color: #3b82f6; /* Isi biru */
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .radio-circle.checked::after {
+            opacity: 1; /* Munculkan isi saat dipilih */
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-blue-50 to-blue-100 font-roboto flex flex-col items-center justify-center min-h-screen px-4">
+    <!-- Halaman Login -->
+    <div id="login-page" class="text-center w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+        <h1 class="text-4xl font-extrabold text-blue-600">Smart Finance 4</h1>
+        <h2 class="text-4xl font-extrabold text-blue-600">Smart Students</h2>
+        <p class="italic mt-2 text-gray-600 text-sm sm:text-base">JANGAN BIARKAN UANG MENGUASAI HIDUPMU, SEBALIKNYA, KUASAILAH UANGMU AGAR DAPAT MENJALANI HIDUP SESUAI DENGAN NILAI DAN TUJUANMU</p>
+        <div class="mt-6">
+            <label class="block text-left text-lg font-semibold mb-2 text-gray-700">Siapa namamu?</label>
+            <input id="name" type="text" placeholder="Nama Anda" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-200">
+        </div>
+        <div class="mt-4">
+            <label class="block text-left text-lg font-semibold mb-2 text-gray-700">Kode Masuk</label>
+            <input id="code" type="text" placeholder="4 Digit Angka" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-200">
+        </div>
+        <div class="mt-6">
+            <button onclick="validateLogin()" class="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold rounded-lg shadow-lg hover:scale-105 transition-transform duration-200">Login</button>
+        </div>
+        <div class="mt-4 text-gray-600">
+            Tidak memiliki kode? <a href="#" onclick="showComingSoon()" class="text-blue-600 underline">Dapatkan disini</a>
+        </div>
+    </div>
+
+    <!-- Halaman Setelah Login -->
+    <div id="main-page" class="hidden text-center w-full max-w-lg p-6 bg-white rounded-lg shadow-md">
+        <h1 class="text-4xl md:text-5xl font-bold text-blue-600">Smart Finance 4</h1>
+        <h1 class="text-4xl md:text-5xl font-bold text-blue-600">Smart Students</h1>
+        <p class="italic mt-2 text-gray-600 text-sm sm:text-base">JANGAN BIARKAN UANG MENGUASAI HIDUPMU, SEBALIKNYA, KUASAILAH UANGMU AGAR DAPAT MENJALANI HIDUP SESUAI DENGAN NILAI DAN TUJUANMU</p>
+        <div class="mt-6">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800">PERIODE KEUANGAN</h2>
+            <div class="mt-4 flex flex-col sm:flex-row sm:justify-center gap-6">
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="periode" class="hidden" onchange="toggleRadio(this)">
+                    <div class="radio-circle"></div>
+                    <span class="ml-3 text-lg text-gray-700 font-semibold">Harian</span>
+                </label>
+                <label class="flex items-center cursor-pointer">
+                    <input type="radio" name="periode" class="hidden" onchange="toggleRadio(this)">
+                    <div class="radio-circle"></div>
+                    <span class="ml-3 text-lg text-gray-700 font-semibold">Bulanan</span>
+                </label>
+            </div>
+        </div>
+        <div class="mt-6">
+            <p class="text-xl font-bold text-gray-800">Yuk, Baca</p>
+            <a href="#" class="text-xl text-blue-600 underline">Literasi keuangan</a>
+        </div>
+    </div>
+
+    <script>
+        // Validasi Login
+        function validateLogin() {
+            const nameInput = document.getElementById('name').value.trim().toLowerCase();
+            const codeInput = document.getElementById('code').value.trim();
+
+            // Validasi kode hanya angka dan tepat 4 digit
+            const isCodeValid = /^[0-9]{4}$/.test(codeInput);
+
+            if (nameInput === "kontsol" && isCodeValid && codeInput === "6666") {
+                // Sembunyikan halaman login dan tampilkan halaman utama
+                document.getElementById('login-page').classList.add('hidden');
+                document.getElementById('main-page').classList.remove('hidden');
+            } else if (!isCodeValid) {
+                alert("Kode harus berisi 4 digit angka.");
+            } else {
+                alert("Nama atau kode salah. Silakan coba lagi.");
+            }
+        }
+
+        // Coming Soon Alert
+        function showComingSoon() {
+            alert("Coming Soon");
+        }
+
+        // Animasi Radio Button
+        function toggleRadio(element) {
+            document.querySelectorAll('.radio-circle').forEach((circle) => circle.classList.remove('checked'));
+            element.nextElementSibling.classList.add('checked');
+        }
+    </script>
+</body>
+</html>
