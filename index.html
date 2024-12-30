@@ -1,49 +1,118 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Finance 4 Smart Students</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Smart Finance</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <style>
-        /* Animasi untuk Radio Button */
-        .radio-circle {
-            width: 1.5rem;
-            height: 1.5rem;
-            border: 2px solid #cbd5e1; /* Gray border */
-            border-radius: 50%;
-            position: relative;
+        /* Animasi untuk Tombol Pilihan */
+        .choice-button {
+            width: 150px;
+            height: 50px;
+            border: 2px solid #cbd5e1;
+            border-radius: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.3s ease-in-out;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
         }
-        .radio-circle:hover {
-            transform: scale(1.2); /* Animasi saat hover */
-            border-color: #3b82f6; /* Ubah warna border ke biru */
+        .choice-button:hover {
+            transform: scale(1.1);
+            border-color: #3b82f6;
         }
-        .radio-circle.checked {
-            border-color: #3b82f6; /* Border biru saat dipilih */
+        .choice-button.selected {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
         }
-        .radio-circle::after {
-            content: "";
-            width: 0.75rem;
-            height: 0.75rem;
-            background-color: #3b82f6; /* Isi biru */
-            border-radius: 50%;
+
+        /* Animasi Morph antar halaman */
+        .page-transition {
+            transition: all 0.5s ease-in-out;
+            transform-origin: center;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .page-transition.hidden {
             opacity: 0;
-            transition: opacity 0.3s ease-in-out;
+            transform: scale(0.9);
+            pointer-events: none;
         }
-        .radio-circle.checked::after {
-            opacity: 1; /* Munculkan isi saat dipilih */
+
+        .page-transition.slide-up {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .page-transition.slide-up.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .fade-scale {
+            transition: all 0.4s ease-in-out;
+        }
+
+        .fade-scale.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        /* Animasi loading saat transisi */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body class="bg-gradient-to-r from-blue-50 to-blue-100 font-roboto flex flex-col items-center justify-center min-h-screen px-4">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
     <!-- Halaman Login -->
-    <div id="login-page" class="text-center w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-        <h1 class="text-4xl font-extrabold text-blue-600">Smart Finance 4</h1>
-        <h2 class="text-4xl font-extrabold text-blue-600">Smart Students</h2>
-        <p class="italic mt-2 text-gray-600 text-sm sm:text-base">JANGAN BIARKAN UANG MENGUASAI HIDUPMU, SEBALIKNYA, KUASAILAH UANGMU AGAR DAPAT MENJALANI HIDUP SESUAI DENGAN NILAI DAN TUJUANMU</p>
+    <div id="login-page" class="page-transition text-center w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+        <div class="text-center-login">
+        	<h1 class="text-4xl font-bold">Fluent futures</h1>
+        		<p class="text-xl text-blue-600 mt-2">Smart Finance 4 Smart students</p>
+        	<p class="italic mt-2">JANGAN BIARKAN UANG MENGUASAI HIDUPMU, SEBALIKNYA, KUASAILAH UANGMU AGAR DAPAT MENJALANI HIDUP SESUAI DENGAN NILAI DAN TUJUANMU</p>
+        </div>
         <div class="mt-6">
             <label class="block text-left text-lg font-semibold mb-2 text-gray-700">Siapa namamu?</label>
             <input id="name" type="text" placeholder="Nama Anda" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 transition duration-200">
@@ -61,44 +130,302 @@
     </div>
 
     <!-- Halaman Setelah Login -->
-    <div id="main-page" class="hidden text-center w-full max-w-lg p-6 bg-white rounded-lg shadow-md">
-        <h1 class="text-4xl md:text-5xl font-bold text-blue-600">Smart Finance 4</h1>
-        <h1 class="text-4xl md:text-5xl font-bold text-blue-600">Smart Students</h1>
-        <p class="italic mt-2 text-gray-600 text-sm sm:text-base">JANGAN BIARKAN UANG MENGUASAI HIDUPMU, SEBALIKNYA, KUASAILAH UANGMU AGAR DAPAT MENJALANI HIDUP SESUAI DENGAN NILAI DAN TUJUANMU</p>
+    <div id="main-page" class="page-transition hidden text-center w-full max-w-lg p-6 bg-white rounded-lg shadow-md">
+        <div class="flex justify-end mb-4">
+            <button onclick="logout()" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600">Logout</button>
+        </div>
+        <div class="text-center-main-page">
+        	<h1 class="text-4xl font-bold">Fluent futures</h1>
+        	<p class="text-xl text-blue-600 mt-2">Smart Finance 4 Smart students</p>
+        	<p class="italic mt-2">JANGAN BIARKAN UANG MENGUASAI HIDUPMU, SEBALIKNYA, KUASAILAH UANGMU AGAR DAPAT MENJALANI HIDUP SESUAI DENGAN NILAI DAN TUJUANMU</p>
+        </div>
         <div class="mt-6">
             <h2 class="text-2xl md:text-3xl font-bold text-gray-800">PERIODE KEUANGAN</h2>
             <div class="mt-4 flex flex-col sm:flex-row sm:justify-center gap-6">
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="periode" class="hidden" onchange="toggleRadio(this)">
-                    <div class="radio-circle"></div>
-                    <span class="ml-3 text-lg text-gray-700 font-semibold">Harian</span>
-                </label>
-                <label class="flex items-center cursor-pointer">
-                    <input type="radio" name="periode" class="hidden" onchange="toggleRadio(this)">
-                    <div class="radio-circle"></div>
-                    <span class="ml-3 text-lg text-gray-700 font-semibold">Bulanan</span>
-                </label>
+                <div class="choice-button" onclick="toggleChoice(this, 'harian')">Harian</div>
+                <div class="choice-button" onclick="toggleChoice(this, 'bulanan')">Bulanan</div>
             </div>
         </div>
         <div class="mt-6">
             <p class="text-xl font-bold text-gray-800">Yuk, Baca</p>
-            <a href="#" class="text-xl text-blue-600 underline">Literasi keuangan</a>
+            <a href="#" onclick="showLiterasiPage()" class="text-xl text-blue-600 underline">Literasi keuangan</a>
+        </div>
+    </div>
+
+    <!-- Halaman Literasi -->
+    <div id="literasi-page" class="page-transition hidden bg-blue-100 font-sans w-full">
+        <div class="max-w-md mx-auto p-4">
+            <div class="flex justify-between items-center mb-4">
+                <button onclick="goBack()" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+                    Kembali
+                </button>
+            </div>
+            <h1 class="text-lg font-bold text-black">Fluent futures</h1>
+            <h2 class="text-blue-600 text-lg font-bold">Smart Finance 4 Smart students</h2>
+            <h3 class="text-xl font-bold text-black mt-4">Yuk, cari tahu cara mengatur keuangan!</h3>
+            <div class="relative mt-4">
+                <input id="searchInput" class="w-full p-2 border rounded-full" placeholder="Search..." type="text" onkeyup="filterItems()"/>
+                <i class="fas fa-search absolute top-2 right-4 text-gray-500"></i>
+            </div>
+            <div id="itemsContainer" class="mt-4 space-y-4">
+                <div class="flex items-center bg-gray-300 p-2 rounded-lg">
+                    <img alt="Decorative image" class="w-12 h-12 rounded-lg" height="50" src="https://placehold.co/50x50" width="50"/>
+                    <div class="ml-2 flex-grow">
+                        <p class="text-white">Apa bahaya pinjol bagi masyarakat?</p>
+                    </div>
+                    <i class="fas fa-plus-circle text-green-500"></i>
+                </div>
+                <div class="flex items-center bg-gray-300 p-2 rounded-lg">
+                    <img alt="Decorative image" class="w-12 h-12 rounded-lg" height="50" src="https://placehold.co/50x50" width="50"/>
+                    <div class="ml-2 flex-grow">
+                        <p class="text-white">5 cara untuk mengatur skala prioritas!</p>
+                    </div>
+                    <i class="fas fa-plus-circle text-green-500"></i>
+                </div>
+                <div class="flex items-center bg-gray-300 p-2 rounded-lg">
+                    <img alt="Decorative image" class="w-12 h-12 rounded-lg" height="50" src="https://placehold.co/50x50" width="50"/>
+                    <div class="ml-2 flex-grow">
+                        <p class="text-white">merasa gengsi dengan teman yang hidupnya mewah dan foya foya? Yuk baca ini</p>
+                    </div>
+                    <i class="fas fa-plus-circle text-green-500"></i>
+                </div>
+                <div class="flex items-center bg-gray-300 p-2 rounded-lg">
+                    <img alt="Decorative image" class="w-12 h-12 rounded-lg" height="50" src="https://placehold.co/50x50" width="50"/>
+                    <div class="ml-2 flex-grow">
+                        <p class="text-white">Tips hemat ala miliader</p>
+                    </div>
+                    <i class="fas fa-plus-circle text-green-500"></i>
+                </div>
+                <div class="flex items-center bg-gray-300 p-2 rounded-lg">
+                    <img alt="Decorative image" class="w-12 h-12 rounded-lg" height="50" src="https://placehold.co/50x50" width="50"/>
+                    <div class="ml-2 flex-grow">
+                        <p class="text-white">Suka kalap kalo lagi di mall? Ikuti cara ini!</p>
+                    </div>
+                    <i class="fas fa-plus-circle text-green-500"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Harian -->
+    <div id="harian-page" class="page-transition hidden bg-blue-100 font-roboto p-4 w-full">
+        <div class="flex justify-between items-center mb-4">
+            <button onclick="goBack()" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+                Kembali
+            </button>
+        </div>
+        <div class="text-center">
+            <p class="text-4xl font-bold">Fluent Futures</p>
+            <p class="text-blue-400 font-bold text-lg">Smart Finance 4 Smart Students</p>
+            <p class="bg-white inline-block px-2 py-1 font-bold">
+                Yuk atur keuanganmu<br />bersama Flures
+            </p>
+        </div>
+        <div class="mt-4">
+            <p class="text-blue-600 text-lg font-bold">Uang jajan harian:</p>
+            <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 mt-2 text-center" id="uangJajan" type="text" value="Rp. 25.000,-" />
+        </div>
+        <div class="mt-4">
+            <p class="text-blue-600 text-lg font-bold">Tabungan/Hari :</p>
+            <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 mt-2 text-center" id="tabunganHarian" type="text" value="Rp. 5.000,-" />
+        </div>
+        <div class="mt-4">
+            <p class="text-blue-600 text-lg font-bold">Total uang ditabung:</p>
+            <div class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 inline-block mt-2">Rp. 65.000,-</div>
+        </div>
+        <div class="mt-4 text-red-600 font-bold underline">
+            Silahkan ambil uang tabunganmu jika itu mendesak!
+        </div>
+        <div class="mt-4">
+            <p class="font-bold">Ingat! Kamu nabung untuk ini :</p>
+            <p>Perhatikan skala prioritasmu! Belilah kebutuhan!</p>
+            <div class="flex items-center mt-2">
+                <div class="choice-button" onclick="toggleMultipleChoice(this, 'sepatu')">Sepatu basket</div>
+                <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 ml-2 text-center" id="hargaSepatu" type="text" value="Rp. 370.000,-" />
+            </div>
+            <div class="flex items-center mt-2">
+                <div class="choice-button" onclick="toggleMultipleChoice(this, 'helm')">Helm cargloss</div>
+                <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 ml-2 text-center" id="hargaHelm" type="text" value="Rp. 256.000,-" />
+            </div>
+        </div>
+        <div class="mt-4">
+            <p class="font-bold">Catatan pengeluaran : 28 Agustus 2024</p>
+            <div class="flex items-center mt-2">
+                <div class="bg-blue-600 text-white font-bold rounded-lg px-4 py-4 text-center">
+                    <div class="text-xl">Agustus</div>
+                    <div class="text-4xl">28</div>
+                    <div class="text-md">2024</div>
+                </div>
+                <div class="ml-4">
+                    <p class="flex items-center">
+                        <span class="text-black font-bold mr-2">•</span>
+                        Ayam bakar
+                    </p>
+                    <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 ml-2 text-center" id="hargaAyam" type="text" value="Rp. 14.000,-" />
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 text-center font-bold underline">
+            Mulai investasi sederhana!
+        </div>
+    </div>
+
+    <!-- Halaman Bulanan -->
+    <div id="bulanan-page" class="page-transition hidden bg-blue-100 font-roboto p-4 w-full">
+        <div class="flex justify-between items-center mb-4">
+            <button onclick="goBack()" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+                Kembali
+            </button>
+        </div>
+        <div class="text-center">
+            <p class="text-4xl font-bold">Fluent Futures</p>
+            <p class="text-blue-400 font-bold text-lg">Smart Finance 4 Smart Students</p>
+            <p class="bg-white inline-block px-2 py-1 font-bold">
+                Yuk atur keuanganmu<br />bersama Flures
+            </p>
+        </div>
+        <div class="mt-4">
+            <p class="text-blue-600 text-lg font-bold">Uang jajan bulanan:</p>
+            <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 mt-2 text-center" id="uangJajanBulanan" type="text" value="Rp. 600.000,-" />
+        </div>
+        <div class="mt-4">
+            <p class="text-blue-600 text-lg font-bold">Tabungan/Bulan :</p>
+            <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 mt-2 text-center" id="tabunganBulanan" type="text" value="Rp. 150.000,-" />
+        </div>
+        <div class="mt-4">
+            <p class="text-blue-600 text-lg font-bold">Total uang ditabung:</p>
+            <div class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 inline-block mt-2">Rp. 430.000,-</div>
+        </div>
+        <div class="mt-4 text-red-600 font-bold underline">
+            Silahkan ambil uang tabunganmu jika itu mendesak!
+        </div>
+        <div class="mt-4">
+            <p class="font-bold">Ingat! Kamu nabung untuk ini :</p>
+            <p>Perhatikan skala prioritasmu! Belilah kebutuhan!</p>
+            <div class="flex items-center mt-2">
+                <div class="choice-button" onclick="toggleMultipleChoice(this, 'serviceOli')">Service oli</div>
+                <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 ml-2 text-center" id="hargaServiceOli" type="text" value="Rp. 92.000,-" />
+            </div>
+            <div class="flex items-center mt-2">
+                <div class="choice-button" onclick="toggleMultipleChoice(this, 'kueHariIbu')">Kue hari ibu</div>
+                <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 ml-2 text-center" id="hargaKueHariIbu" type="text" value="Rp. 80.000,-" />
+            </div>
+        </div>
+        <div class="mt-4">
+            <p class="font-bold">Catatan pengeluaran : 1 Desember 2024</p>
+            <div class="flex items-center mt-2">
+                <div class="bg-blue-600 text-white font-bold rounded-lg px-4 py-4 text-center">
+                    <div class="text-xl">Desember</div>
+                    <div class="text-4xl">1</div>
+                    <div class="text-md">2024</div>
+                </div>
+                <div class="ml-4">
+                    <p class="flex items-center">
+                        <span class="text-black font-bold mr-2">•</span>
+                        Kopi point
+                    </p>
+                    <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 ml-2 text-center" id="hargaKopiPoint" type="text" value="Rp. 30.000,-" />
+                </div>
+                <div class="ml-4 mt-2">
+                    <p class="flex items-center">
+                        <span class="text-black font-bold mr-2">•</span>
+                        Bensin Cel
+                    </p>
+                    <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 ml-2 text-center" id="hargaBensinCel" type="text" value="Rp. 20.000,-" />
+                </div>
+                <div class="ml-4 mt-2">
+                    <p class="flex items-center">
+                        <span class="text-black font-bold mr-2">•</span>
+                        Nasi rames
+                    </p>
+                    <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 ml-2 text-center" id="hargaNasiRames" type="text" value="Rp. 13.000,-" />
+                </div>
+                <div class="ml-4 mt-2">
+                    <p class="flex items-center">
+                        <span class="text-black font-bold mr-2">•</span>
+                        Roti cakwe
+                    </p>
+                    <input class="bg-blue-600 text-white text-lg font-bold rounded-full px-4 py-2 ml-2 text-center" id="hargaRotiCakwe" type="text" value="Rp. 6.000,-" />
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 text-center font-bold underline">
+            Mulai investasi sederhana!
         </div>
     </div>
 
     <script>
-        // Validasi Login
-        function validateLogin() {
+        // Fungsi untuk menampilkan loading
+        function showLoading() {
+            document.querySelector('.loading-overlay').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.querySelector('.loading-overlay').classList.remove('active');
+        }
+
+        // Fungsi transisi halaman
+        async function switchPage(hideElement, showElement) {
+            showLoading();
+            
+            hideElement.classList.add('slide-up');
+            await new Promise(resolve => setTimeout(resolve, 300));
+            hideElement.classList.add('hidden');
+            
+            showElement.classList.remove('hidden');
+            await new Promise(resolve => setTimeout(resolve, 100));
+            showElement.classList.remove('slide-up');
+            
+            setTimeout(hideLoading, 400);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkLoginStatus();
+            
+            const harianInputs = ['uangJajan', 'tabunganHarian', 'hargaSepatu', 'hargaHelm', 'hargaAyam'];
+            const bulananInputs = ['uangJajanBulanan', 'tabunganBulanan', 'hargaServiceOli', 'hargaKueHariIbu', 'hargaKopiPoint', 'hargaBensinCel', 'hargaNasiRames', 'hargaRotiCakwe'];
+            
+            [...harianInputs, ...bulananInputs].forEach(inputId => {
+                const input = document.getElementById(inputId);
+                if (input) {
+                    const savedValue = localStorage.getItem(inputId);
+                    if (savedValue) {
+                        input.value = savedValue;
+                    }
+                    input.addEventListener('input', function() {
+                        localStorage.setItem(inputId, input.value);
+                    });
+                }
+            });
+
+            const savedChoices = JSON.parse(localStorage.getItem('selectedChoices')) || [];
+            savedChoices.forEach(choice => {
+                const element = document.querySelector(`.choice-button[onclick*="${choice}"]`);
+                if (element) {
+                    element.classList.add('selected');
+                }
+            });
+        });
+        
+        async function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn === 'true') {
+                const loginPage = document.getElementById('login-page');
+                const mainPage = document.getElementById('main-page');
+                await switchPage(loginPage, mainPage);
+            }
+        }
+
+        async function validateLogin() {
             const nameInput = document.getElementById('name').value.trim().toLowerCase();
             const codeInput = document.getElementById('code').value.trim();
-
-            // Validasi kode hanya angka dan tepat 4 digit
             const isCodeValid = /^[0-9]{4}$/.test(codeInput);
 
             if (nameInput === "kontsol" && isCodeValid && codeInput === "6666") {
-                // Sembunyikan halaman login dan tampilkan halaman utama
-                document.getElementById('login-page').classList.add('hidden');
-                document.getElementById('main-page').classList.remove('hidden');
+                localStorage.setItem('isLoggedIn', 'true');
+                const loginPage = document.getElementById('login-page');
+                const mainPage = document.getElementById('main-page');
+                await switchPage(loginPage, mainPage);
             } else if (!isCodeValid) {
                 alert("Kode harus berisi 4 digit angka.");
             } else {
@@ -106,15 +433,120 @@
             }
         }
 
-        // Coming Soon Alert
+        async function logout() {
+            localStorage.removeItem('isLoggedIn');
+            const mainPage = document.getElementById('main-page');
+            const loginPage = document.getElementById('login-page');
+            const harianPage = document.getElementById('harian-page');
+            const bulananPage = document.getElementById('bulanan-page');
+            const literasiPage = document.getElementById('literasi-page');
+            
+            if (!harianPage.classList.contains('hidden')) {
+                await switchPage(harianPage, loginPage);
+            } else if (!bulananPage.classList.contains('hidden')) {
+                await switchPage(bulananPage, loginPage);
+            } else if (!literasiPage.classList.contains('hidden')) {
+                await switchPage(literasiPage, loginPage);
+            } else {
+                await switchPage(mainPage, loginPage);
+            }
+            
+            document.getElementById('name').value = '';
+            document.getElementById('code').value = '';
+        }
+
         function showComingSoon() {
             alert("Coming Soon");
         }
 
-        // Animasi Radio Button
-        function toggleRadio(element) {
-            document.querySelectorAll('.radio-circle').forEach((circle) => circle.classList.remove('checked'));
-            element.nextElementSibling.classList.add('checked');
+        function toggleChoice(element, choice) {
+            document.querySelectorAll('.choice-button').forEach((button) => button.classList.remove('selected'));
+            element.classList.add('selected');
+            if (choice === 'harian') {
+                showHarianPage();
+            } else if (choice === 'bulanan') {
+                showBulananPage();
+            }
+        }
+
+        async function showHarianPage() {
+            const mainPage = document.getElementById('main-page');
+            const harianPage = document.getElementById('harian-page');
+            await switchPage(mainPage, harianPage);
+
+            // Memuat pilihan yang disimpan
+            const savedChoices = JSON.parse(localStorage.getItem('selectedChoices')) || [];
+            savedChoices.forEach(choice => {
+                const element = document.querySelector(`#harian-page .choice-button[onclick*="${choice}"]`);
+                if (element) {
+                    element.classList.add('selected');
+                }
+            });
+        }
+
+        async function showBulananPage() {
+            const mainPage = document.getElementById('main-page');
+            const bulananPage = document.getElementById('bulanan-page');
+            await switchPage(mainPage, bulananPage);
+
+            // Memuat pilihan yang disimpan
+            const savedChoices = JSON.parse(localStorage.getItem('selectedChoices')) || [];
+            savedChoices.forEach(choice => {
+                const element = document.querySelector(`#bulanan-page .choice-button[onclick*="${choice}"]`);
+                if (element) {
+                    element.classList.add('selected');
+                }
+            });
+        }
+
+        async function showLiterasiPage() {
+            const mainPage = document.getElementById('main-page');
+            const literasiPage = document.getElementById('literasi-page');
+            await switchPage(mainPage, literasiPage);
+        }
+
+        function toggleMultipleChoice(element, choice) {
+            element.classList.toggle('selected');
+            const selectedChoices = JSON.parse(localStorage.getItem('selectedChoices')) || [];
+            if (element.classList.contains('selected')) {
+                selectedChoices.push(choice);
+            } else {
+                const index = selectedChoices.indexOf(choice);
+                if (index > -1) {
+                    selectedChoices.splice(index, 1);
+                }
+            }
+            localStorage.setItem('selectedChoices', JSON.stringify(selectedChoices));
+        }
+
+        async function goBack() {
+            const harianPage = document.getElementById('harian-page');
+            const bulananPage = document.getElementById('bulanan-page');
+            const literasiPage = document.getElementById('literasi-page');
+            const mainPage = document.getElementById('main-page');
+            
+            if (!harianPage.classList.contains('hidden')) {
+                await switchPage(harianPage, mainPage);
+            } else if (!bulananPage.classList.contains('hidden')) {
+                await switchPage(bulananPage, mainPage);
+            } else if (!literasiPage.classList.contains('hidden')) {
+                await switchPage(literasiPage, mainPage);
+            }
+        }
+
+        function filterItems() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const itemsContainer = document.getElementById('itemsContainer');
+            const items = itemsContainer.getElementsByClassName('flex');
+
+            for (let i = 0; i < items.length; i++) {
+                const itemText = items[i].getElementsByTagName('p')[0].innerText.toLowerCase();
+                if (itemText.includes(searchInput)) {
+                    items[i].style.display = '';
+                } else {
+                    items[i].style.display = 'none';
+                }
+            }
         }
     </script>
 </body>
